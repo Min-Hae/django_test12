@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	{{question.question_text}}<br>
+	
+	<b style="color:red"> <!-- 투표 항목을 선택하지 않은 경우 에러 메시지 출력 -->
+	{% if error_msg %}
+	{{error_msg}}
+	
+	{%endif%}
+	<form action="{%url 'vote' question.id%}" method="post">
+		{%csrf_token%}
+		<!-- /gogo/2/vote/ -->
+		{%for choice in question.choice_set.all %} {# choice 객체를 반환 #} <input
+			type="radio" name="choice" id="choice{{forloop.counter}}"
+			value="{{choice.id}}"> <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label>
+		<br> {% endfor %}
+		<input type="submit" value="투표 확인">
+	</form>
+</body>
+</html>
